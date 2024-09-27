@@ -62,22 +62,35 @@ const wordsList = [
   },
 ];
 
-const hangmanImg = document.querySelector('.picture');
+const modalWindow = document.querySelector('.modal');
+const hangmanImg = document.querySelector('.hangman-img');
 const wrongGuess = document.querySelector('.incorrect-text');
 const display = document.querySelector('.word-display');
 const hintText = document.querySelector('.hint');
 const keyboardBox = document.querySelector('.keyboard');
 const modalTitleText = document.querySelector('.modal-title');
-const modalImgChoose = document.querySelector('.modal-img');
+const modalImgChoose = document.querySelector('.modalImg-win');
 const modalAnswerChoose = document.querySelector('.answer');
 const playAgain = document.querySelector('.play-again');
 let currentWord;
 let currentHint;
 let lastRandomNumber;
-let countWrongGuess = 0;
+let countWrongGuess;
 const maxWrongGuess = 6;
 
 console.log(wordsList);
+
+function startGame() {
+  countWrongGuess = 0;
+  wrongGuess.innerText = `${countWrongGuess} / ${maxWrongGuess}`;
+  closeModal();
+  changeImg();
+  getWordAndHint();
+  createButtons();
+
+  console.log(countWrongGuess);
+}
+startGame();
 
 function randomNumber(min, max) {
   let random = min + Math.random() * (max + 1 - min);
@@ -94,21 +107,19 @@ function getWordAndHint() {
   console.log(currentWord);
   hintText.innerText = `${currentHint}`;
 }
-getWordAndHint();
 
 function createButtons() {
+  keyboardBox.innerHTML = '';
   for (let i = 97; i <= 122; i++) {
     const button = document.createElement('button');
     button.innerText = String.fromCharCode(i);
     keyboardBox.appendChild(button);
     button.addEventListener('click', () => {
       button.disabled = true;
-      console.log(button.innerText);
       checkLetter(button.innerText.toLocaleLowerCase());
     });
   }
 }
-createButtons();
 
 function checkLetter(letter) {
   if (currentWord.includes(letter)) {
@@ -116,7 +127,29 @@ function checkLetter(letter) {
   } else {
     console.log('wrong');
     countWrongGuess++;
+    changeImg();
   }
   console.log(countWrongGuess);
+  if (countWrongGuess >= maxWrongGuess) {
+    showModal();
+  }
   wrongGuess.innerText = `${countWrongGuess} / ${maxWrongGuess}`;
 }
+
+function changeImg() {
+  hangmanImg.src = `./assets/images/hangman-${countWrongGuess}.svg`;
+}
+
+function showModal() {
+  let isWin = countWrongGuess < maxWrongGuess;
+  modalWindow.classList.add('show');
+  modalTitleText.innerText = isWin ? 'Congratulations!' : 'Game Over!';
+  modalImgChoose.src = `./assets/images/${isWin ? 'win' : 'lost'}.gif`;
+  modalAnswerChoose.innerHTML = `The right word: ` + `<b>${currentWord}<b/>`;
+}
+
+function closeModal() {
+  modalWindow.classList.remove('show');
+}
+
+playAgain.addEventListener('click', startGame);

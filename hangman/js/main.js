@@ -73,7 +73,8 @@ modalContent.appendChild(modalTitle);
 
 const modalImg = document.createElement('div'); // modal img
 modalImg.className = 'modal-img';
-modalImg.innerHTML = '<img  src="./assets/images/lost.gif" alt="lost">';
+modalImg.innerHTML =
+  '<img class="modalImg-win"  src="./assets/images/lost.gif" alt="lost">';
 modalContent.appendChild(modalImg);
 
 const answer = document.createElement('p'); // modal answer
