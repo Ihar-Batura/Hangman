@@ -1,79 +1,87 @@
-// HTML BODY first container (img and name)
-let container = document.createElement('div');
+const body = document.querySelector('body');
+
+// main container
+const container = document.createElement('div');
 container.className = 'container';
+body.appendChild(container);
 
-let hangmanBox = document.createElement('div');
-hangmanBox.className = 'hangman-box';
-hangmanBox.innerHTML = '<img class ="hangman-img" src="./assets/images/hangman-0.svg" alt="hangman image">';
+// logo text
+const logo = document.createElement('h1');
+logo.className = 'logo';
+logo.innerText = 'HANGMAN GAME';
+container.appendChild(logo);
 
-let gameName = document.createElement('h1');
-gameName.className = 'game-name';
-gameName.innerText = 'HANGMAN GAME';
+// game container
+const gameContainer = document.createElement('div');
+gameContainer.className = 'game-container';
+container.appendChild(gameContainer);
 
+// 1 first box
+const pictureBox = document.createElement('div'); // picture box
+pictureBox.className = 'picture-box';
+gameContainer.appendChild(pictureBox);
 
-document.body.prepend(container);
-container.append(hangmanBox);
-hangmanBox.append(gameName);
+const picture = document.createElement('div'); // picture
+picture.className = 'picture';
+picture.innerHTML =
+  '<img class ="hangman-img" src="./assets/images/hangman-0.svg" alt="hangman image">';
+pictureBox.appendChild(picture);
 
-// HTML BODY second container (play-box)
-let gameBox = document.createElement('div');
+const guesses = document.createElement('h4'); // guesses field
+guesses.className = 'guesses';
+guesses.innerHTML = 'Incorrect guesses: <b class ="incorrect-text">0 / 6</b>';
+pictureBox.appendChild(guesses);
+
+// 2 second box
+const gameBox = document.createElement('div'); // game box
 gameBox.className = 'game-box';
+gameContainer.appendChild(gameBox);
 
-container.append(gameBox);
-
-let lettersDisplay = document.createElement('ul');
+const lettersDisplay = document.createElement('ul'); // word display
 lettersDisplay.className = 'word-display';
+gameBox.appendChild(lettersDisplay);
 
-gameBox.append(lettersDisplay);
+const hint = document.createElement('h4'); // hint text
+hint.className = 'hint-text';
+hint.innerHTML = 'Hint: <b class ="hint"></b>';
+gameBox.append(hint);
 
-
-let hintText = document.createElement('h4');
-hintText.className = 'hint-text';
-hintText.innerHTML = 'Hint: <b class ="hint">Lorem ipsum dolor sit amet.</b>';
-
-gameBox.append(hintText);
-
-let guessText = document.createElement('h4');
-guessText.className = 'guesses-text';
-guessText.innerHTML = 'Incorrect guesses: <b class ="incorrect-text">0 / 6</b>';   
-
-gameBox.append(guessText);
-
-let keyboard = document.createElement('div');
+const keyboard = document.createElement('div'); // keyboard
 keyboard.className = 'keyboard';
-
 gameBox.append(keyboard);
 
+// contacts
+const contacts = document.createElement('div');
+contacts.className = 'contacts';
+contacts.innerHTML = `Ihar Batura
+      <a href="https://github.com/Ihar-Batura" target="_blank"> <img src="./assets/images/gitIcon.png" alt="git icon" /></a>`;
+container.appendChild(contacts);
 
-//HTML BODY Modal window
-let modal = document.createElement('div');
+//Modal window
+const modal = document.createElement('div'); // modal
 modal.className = 'modal';
-
 container.before(modal);
 
-let modalContent = document.createElement('div');
+const modalContent = document.createElement('div'); // modal container
 modalContent.className = 'modal-content';
-modalContent.innerHTML = '<img class ="modal-img" src="./assets/images/lost.gif" alt="lost">';
+modal.appendChild(modalContent);
 
-modal.prepend(modalContent);
-
-let modalTitle = document.createElement('h4');
+const modalTitle = document.createElement('h4'); // modal title
 modalTitle.className = 'modal-title';
 modalTitle.innerText = 'Game Over!';
+modalContent.appendChild(modalTitle);
 
-modalContent.append(modalTitle);
+const modalImg = document.createElement('div'); // modal img
+modalImg.className = 'modal-img';
+modalImg.innerHTML =
+  '<img class="modalImg-win"  src="./assets/images/lost.gif" alt="lost">';
+modalContent.appendChild(modalImg);
 
-let answer = document.createElement('p');
+const answer = document.createElement('p'); // modal answer
 answer.className = 'answer';
-answer.innerHTML = 'The correct world was: <b>Lorem</b>';
+modalContent.appendChild(answer);
 
-modalTitle.after(answer);
-
-let playAgain = document.createElement('button');
-playAgain.className = 'play-again';
-playAgain.innerText = 'Play Again'
-
-answer.after(playAgain);
-
-
-
+const btnPlayAgain = document.createElement('button'); // modal btn
+btnPlayAgain.className = 'play-again';
+btnPlayAgain.innerText = 'Play Again';
+modalContent.appendChild(btnPlayAgain);
