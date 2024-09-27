@@ -43,7 +43,7 @@ gameBox.appendChild(lettersDisplay);
 
 const hint = document.createElement('h4'); // hint text
 hint.className = 'hint-text';
-hint.innerHTML = 'Hint: <b class ="hint">Lorem </b>';
+hint.innerHTML = 'Hint: <b class ="hint"></b>';
 gameBox.append(hint);
 
 const keyboard = document.createElement('div'); // keyboard
@@ -78,7 +78,6 @@ modalContent.appendChild(modalImg);
 
 const answer = document.createElement('p'); // modal answer
 answer.className = 'answer';
-answer.innerHTML = 'The correct world was: <b>Lorem</b>';
 modalContent.appendChild(answer);
 
 const btnPlayAgain = document.createElement('button'); // modal btn
