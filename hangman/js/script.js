@@ -74,6 +74,8 @@ const modalAnswerChoose = document.querySelector('.answer');
 const playAgain = document.querySelector('.play-again');
 let currentWord;
 let currentHint;
+let checkCurrentWord;
+
 let lastRandomNumber;
 let countWrongGuess;
 const maxWrongGuess = 6;
@@ -104,7 +106,13 @@ function getWordAndHint() {
   lastRandomNumber = numberWord;
   currentWord = wordsList[numberWord].word;
   currentHint = wordsList[numberWord].hint;
+  checkCurrentWord = currentWord.split('');
   console.log(currentWord);
+  display.innerHTML = currentWord
+    .split('')
+    .map((letter) => `<li class="letter">${letter}</li>`)
+    .join('');
+  console.log(checkCurrentWord);
   hintText.innerText = `${currentHint}`;
 }
 
@@ -115,24 +123,37 @@ function createButtons() {
     button.innerText = String.fromCharCode(i);
     keyboardBox.appendChild(button);
     button.addEventListener('click', () => {
-      button.disabled = true;
       checkLetter(button.innerText.toLocaleLowerCase());
     });
   }
 }
 
 function checkLetter(letter) {
-  if (currentWord.includes(letter)) {
-    console.log('great');
-  } else {
-    console.log('wrong');
-    countWrongGuess++;
-    changeImg();
-  }
-  console.log(countWrongGuess);
-  if (countWrongGuess >= maxWrongGuess) {
-    showModal();
-  }
+  const keyboardButtons = document.querySelectorAll('.keyboard button');
+  keyboardButtons.forEach((btn) => {
+    if (btn.innerText.toLowerCase() === letter && btn.disabled === false) {
+      btn.disabled = true;
+
+      if (currentWord.includes(letter)) {
+        const listLetters = document.querySelectorAll('.letter');
+        listLetters.forEach((list) => {
+          if (list.innerText.toLowerCase() === letter) {
+            list.classList.add('show');
+          }
+        });
+        checkCurrentWord = checkCurrentWord.filter((el) => el !== letter);
+        if (checkCurrentWord.length < 1) {
+          showModal();
+        }
+      } else {
+        countWrongGuess++;
+        changeImg();
+        if (countWrongGuess >= maxWrongGuess) {
+          showModal();
+        }
+      }
+    }
+  });
   wrongGuess.innerText = `${countWrongGuess} / ${maxWrongGuess}`;
 }
 
@@ -153,3 +174,7 @@ function closeModal() {
 }
 
 playAgain.addEventListener('click', startGame);
+
+document.addEventListener('keydown', (event) => {
+  checkLetter(event.key.toLowerCase());
+});
